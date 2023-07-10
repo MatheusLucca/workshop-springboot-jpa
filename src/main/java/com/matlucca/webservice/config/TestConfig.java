@@ -1,8 +1,10 @@
 package com.matlucca.webservice.config;
 
+import com.matlucca.webservice.entities.Category;
 import com.matlucca.webservice.entities.Order;
 import com.matlucca.webservice.entities.User;
 import com.matlucca.webservice.entities.enums.OrderStatus;
+import com.matlucca.webservice.repositories.CategoryRepository;
 import com.matlucca.webservice.repositories.OrderRepository;
 import com.matlucca.webservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +25,27 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
     @Override
     public void run(String... args) throws Exception {
+
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
         User u1 = new User(null, "Maria", "maria@gmail.com", "99999999", "12345");
         User u2 = new User(null, "Alex", "alex@gmail.com", "88888888", "12345");
 
         Order o1 = new Order(null, Instant.parse("2021-09-30T19:53:07Z"),OrderStatus.PAID,u1);
         Order o2 = new Order(null, Instant.parse("2021-10-01T19:53:07Z"),OrderStatus.WAITING_PAYMENT ,u2);
         Order o3 = new Order(null, Instant.parse("2021-10-02T19:53:07Z"),OrderStatus.WAITING_PAYMENT,u1);
-        userRepository.saveAll(Arrays.asList(u1, u2));
 
+
+        userRepository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
     }
 
 }
